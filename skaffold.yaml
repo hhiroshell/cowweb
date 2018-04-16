@@ -1,0 +1,17 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  artifacts:
+  - imageName: docker.io/hhayakaw/cowweb
+    workspace: .
+  local:
+    skipPush: true
+deploy:
+  kubectl:
+    manifests:
+      - cowweb.yaml
+profiles:
+  - name: push
+    build:
+      local:
+        skipPush: false
