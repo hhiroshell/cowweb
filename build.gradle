@@ -17,6 +17,8 @@ bootJar {
     version =  '0.1'
 }
 
+buildDir="$builddir"
+
 repositories {
     mavenCentral()
 }

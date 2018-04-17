@@ -4,14 +4,25 @@ build:
   artifacts:
   - imageName: docker.io/hhayakaw/cowweb
     workspace: .
+    docker:
+      dockerfilePath: ./build_local/Dockerfile
   local:
     skipPush: true
 deploy:
   kubectl:
     manifests:
-      - cowweb.yaml
+      - ./build_local/cowweb.yaml
 profiles:
-  - name: push
+  - name: release
     build:
+      artifacts:
+      - imageName: docker.io/hhayakaw/cowweb
+        workspace: .
+        docker:
+          dockerfilePath: ./build_release/Dockerfile
       local:
-        skipPush: false
+        skipPush: true
+    deploy:
+      kubectl:
+        manifests:
+          - ./build_release/cowweb.yaml
