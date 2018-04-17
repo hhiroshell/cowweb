@@ -21,7 +21,9 @@ profiles:
         docker:
           dockerfilePath: ./build_release/Dockerfile
       local:
-        skipPush: true
+        skipPush: false
+      tagPolicy:
+        gitCommit: {}
     deploy:
       kubectl:
         manifests:
