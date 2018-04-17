@@ -9,7 +9,7 @@ spec:
     port: 8080
     nodePort: 30080
   - name: debug
-    port: 8001
+    port: 8081
     nodePort: 30081
   selector:
     app: cowweb

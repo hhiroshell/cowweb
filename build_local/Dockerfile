@@ -5,4 +5,4 @@ RUN addgroup -S -g 1000 app \
 USER app
 WORKDIR /home/app
 COPY --chown=app:app ./build_local/dist/libs/cowweb-0.1.jar .
-CMD ["java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,address=8888,suspend=y", "-jar", "/home/app/cowweb-0.1.jar"]
+CMD ["java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,address=8081,suspend=y", "-jar", "/home/app/cowweb-0.1.jar"]
