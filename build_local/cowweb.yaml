@@ -13,6 +13,7 @@ spec:
     nodePort: 30081
   selector:
     app: cowweb
+    profile: local_dev
 ---
 apiVersion: v1
 kind: Pod
@@ -20,6 +21,7 @@ metadata:
   name: cowweb
   labels:
     app: cowweb
+    profile: local_dev
 spec:
   containers:
   - name: cowweb

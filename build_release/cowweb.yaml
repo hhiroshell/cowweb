@@ -8,6 +8,7 @@ spec:
   - port: 8080
   selector:
     app: cowweb
+    profile: release
 ---
 apiVersion: v1
 kind: Pod
@@ -15,6 +16,7 @@ metadata:
   name: cowweb
   labels:
     app: cowweb
+    profile: release
 spec:
   containers:
   - name: cowweb
