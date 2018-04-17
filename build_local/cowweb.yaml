@@ -5,7 +5,12 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8080
+  - name: api
+    port: 8080
+    nodePort: 30080
+  - name: debug
+    port: 8001
+    nodePort: 30081
   selector:
     app: cowweb
 ---
