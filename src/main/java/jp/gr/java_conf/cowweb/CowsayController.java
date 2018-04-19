@@ -62,7 +62,7 @@ public class CowsayController {
      *
      * @return Send back a fixed String.
      */
-    @RequestMapping("/")
+    @RequestMapping("/ping")
     public String ping() {
         System.out.println("I'm working...");
         return "I'm working...";
