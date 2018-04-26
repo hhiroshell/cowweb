@@ -37,9 +37,8 @@ public class CowsayController {
      * @return Cowsay's 'say' message.
      */
     @RequestMapping("/say")
-    public String say(@RequestParam String message) {
-        Optional<String> msg = Optional.ofNullable(message);
-        return Cowsay.say(new String[]{"-f", getRandomCowfile(), msg.orElse("Moo!")});
+    public String say(@RequestParam(required = false) Optional<String> message) {
+        return Cowsay.say(new String[]{"-f", getRandomCowfile(), message.orElse("Moo!")});
     }
 
     /**
@@ -48,9 +47,8 @@ public class CowsayController {
      * @return Cowsay's 'think' message.
      */
     @RequestMapping("/think")
-    public String think(@RequestParam String message) {
-        Optional<String> msg = Optional.ofNullable(message);
-        return Cowsay.think(new String[]{"-f", getRandomCowfile(), msg.orElse("Moo!")});
+    public String think(@RequestParam(required = false) Optional<String> message) {
+        return Cowsay.think(new String[]{"-f", getRandomCowfile(), message.orElse("Moo!")});
     }
 
     private static String getRandomCowfile() {
