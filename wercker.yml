@@ -44,6 +44,7 @@ push-to-releases:
         repository: iad.ocir.io/hhiroshell1/cowweb
         tag: v2.0-test
         ports: 8080
+        cmd: java -jar /pipeline/source/build/libs/cowweb-2.0.jar
 
 deploy-to-cluster:
   box:
