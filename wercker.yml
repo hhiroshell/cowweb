@@ -57,7 +57,7 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: kubectl get nodes
+        command: get nodes
 
 #    - script:
 #        name: wait to delete namespace
