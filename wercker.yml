@@ -32,8 +32,8 @@ integration-test:
     - script:
         name: Run and IT
         code: |
-          java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
-          sleep 10
+          java -jar $WERCKER_ROOT/build/libs/cowweb-2.0.jar &
+          sleep 5
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
 
 deploy-to-cluster:
