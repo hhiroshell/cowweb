@@ -11,7 +11,6 @@ dev:
     - script:
       name: info/env
       code: env
-
     - internal/watch:
       name: Run and Watch
       code: |
@@ -23,18 +22,10 @@ build:
     - script:
       name: info/env
       code: env
-
     - script:
         name: gradle build
         code: |
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR build
-
-    - script:
-        name: Run and IT
-        code: |
-          java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
-          sleep 10
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
 
 integration-test:
   steps:
@@ -50,8 +41,6 @@ deploy-to-cluster:
     id: alpine
     cmd: /bin/sh
   steps:
-    - bash-template
-
     - kubectl:
         name: connection testing
         server: $KUBERNETES_MASTER
