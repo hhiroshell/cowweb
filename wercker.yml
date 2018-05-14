@@ -1,40 +1,34 @@
-# docker box definition
 box:
   id: openjdk:8-jdk
   ports:
     - 8080
+
 services:
   - redis
 
-# defining the dev pipeline
 dev:
   steps:
     - script:
-      name: env
+      name: info/env
       code: env
+
     - internal/watch:
       name: Run and Watch
       code: |
         ./gradlew bootRun
       reload: true
 
-# Build definition
 build:
-  # The steps that will be executed on build
   steps:
     - script:
-      name: env
+      name: info/env
       code: env
-    - script:
-      name: ls
-      code: ls
-    - script:
-      name: pwd
-      code: pwd
+
     - script:
         name: gradle build
         code: |
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR build
+
     - script:
         name: Run and IT
         code: |
@@ -50,3 +44,60 @@ integration-test:
           java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
           sleep 10
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
+
+deploy-to-cluster:
+  box:
+    id: alpine
+    cmd: /bin/sh
+  steps:
+    - bash-template
+
+    - kubectl:
+        name: connection testing
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: kubectl get nodes
+
+#    - script:
+#        name: wait to delete namespace
+#        code: sleep 30
+#
+#    - kubectl:
+#        name: create namespace
+#        server: $KUBERNETES_MASTER
+#        token: $KUBERNETES_TOKEN
+#        insecure-skip-tls-verify: true
+#        command: create namespace $WERCKER_APPLICATION_OWNER_NAME
+#
+#    - kubectl:
+#        name: create OCR secret
+#        server: $KUBERNETES_MASTER
+#        token: $KUBERNETES_TOKEN
+#        insecure-skip-tls-verify: true
+#        command: create secret docker-registry wrelease --docker-server=wcr.io --docker-username=$WERCKER_APPLICATION_OWNER_NAME --docker-password=$KUBERNETES_TOKEN --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$WERCKER_APPLICATION_OWNER_NAME
+#
+#    - kubectl:
+#        name: create deplyoment
+#        server: $KUBERNETES_MASTER
+#        token: $KUBERNETES_TOKEN
+#        insecure-skip-tls-verify: true
+#        command: create -f $WERCKER_ROOT/kubernetes-deployment.yml --namespace=$WERCKER_APPLICATION_OWNER_NAME
+#
+#    - script:
+#        name: "Visualise Ingress config"
+#        code: cat ingress.yml
+#
+#    - kubectl:
+#        name: create Ingress configuration
+#        server: $KUBERNETES_MASTER
+#        token: $KUBERNETES_TOKEN
+#        insecure-skip-tls-verify: true
+#        command: create -f $WERCKER_ROOT/ingress.yml --namespace=$WERCKER_APPLICATION_OWNER_NAME
+#
+#    - kubectl:
+#        name: get LoadBalancer public IP address
+#        server: $KUBERNETES_MASTER
+#        token: $KUBERNETES_TOKEN
+#        insecure-skip-tls-verify: true
+#        command: get svc -o jsonpath='{.items[*].status.loadBalancer.ingress[*].ip}' --all-namespaces
