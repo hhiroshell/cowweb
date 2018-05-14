@@ -1,6 +1,7 @@
 package jp.gr.java_conf.cowweb;
 
 import com.github.ricksbrown.cowsay.Cowsay;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,9 @@ public class CowsayController {
 
     private static final List<String> cowfiles;
 
+    @Autowired
+    AccessCounter counter;
+
     static {
         List<String> infelicities = Arrays.asList(new String[]{"head-in", "telebears", "sodomized"});
         List<String> c = new ArrayList<>();
@@ -29,6 +33,17 @@ public class CowsayController {
             }
         });
         cowfiles = Collections.unmodifiableList(c);
+    }
+
+    /**
+     * Return cowsay's 'say' message.
+     *
+     * @return Cowsay's 'say' message.
+     */
+    @RequestMapping("/whatNumber")
+    public String whatNumber() {
+        return Cowsay.say(new String[]{"-f", getRandomCowfile(),
+                "Thanks! You are the " + counter.getCount() + "th visitor!"});
     }
 
     /**

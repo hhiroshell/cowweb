@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
     }
 }
 
@@ -14,7 +14,7 @@ apply plugin: 'idea'
 
 bootJar {
     baseName = 'cowweb'
-    version =  '0.1'
+    version =  '2.0'
 }
 
 buildDir="$builddir"
@@ -27,6 +27,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.1.RELEASE'
     compile group: 'com.github.ricksbrown', name: 'cowsay', version: '1.0.3'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.0.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.2.RELEASE'
+    compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 }
