@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
     }
 }
 
@@ -14,7 +14,7 @@ apply plugin: 'idea'
 
 bootJar {
     baseName = 'cowweb'
-    version =  '0.1'
+    version =  '2.0'
 }
 
 buildDir="$builddir"
@@ -26,7 +26,35 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.1.RELEASE'
     compile group: 'com.github.ricksbrown', name: 'cowsay', version: '1.0.3'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.0.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.2.RELEASE'
+    compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.26'
+    testCompile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.2.RELEASE'
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
 }

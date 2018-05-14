@@ -15,10 +15,14 @@ class AccessLogInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private ApplicationProperties properties;
 
+    @Autowired
+    private AccessCounter counter;
+
     @Override
     public boolean preHandle(
             HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.info("version: " + properties.getVersion());
+        logger.info("counter: " + String.valueOf(counter.increment()));
         return true;
     }
 
