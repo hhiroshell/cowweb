@@ -36,6 +36,15 @@ integration-test:
           sleep 5
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
 
+push-to-releases:
+  steps:
+    - internal/docker-push:
+        username: $REGISTRY_USERNAME
+        password: $REGISTRY_PASSWORD
+        repository: iad.ocir.io/hhiroshell1/acme-dev
+        tag: 2.0
+        ports: 8080
+
 deploy-to-cluster:
   box:
     id: alpine
