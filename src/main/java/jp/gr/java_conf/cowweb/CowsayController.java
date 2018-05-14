@@ -43,7 +43,7 @@ public class CowsayController {
     @RequestMapping("/whatNumber")
     public String whatNumber() {
         return Cowsay.say(new String[]{"-f", getRandomCowfile(),
-                "Thanks! You are the " + counter.getCount() + "th visitor!"});
+                "Thanks! You are the " + counter.getCount() + "th visitor!!"});
     }
 
     /**

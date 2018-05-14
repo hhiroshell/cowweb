@@ -1,0 +1,52 @@
+# docker box definition
+box:
+  id: openjdk:8-jdk
+  ports:
+    - 8080
+services:
+  - redis
+
+# defining the dev pipeline
+dev:
+  steps:
+    - script:
+      name: env
+      code: env
+    - internal/watch:
+      name: Run and Watch
+      code: |
+        ./gradlew bootRun
+      reload: true
+
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+    - script:
+      name: env
+      code: env
+    - script:
+      name: ls
+      code: ls
+    - script:
+      name: pwd
+      code: pwd
+    - script:
+        name: gradle build
+        code: |
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR build
+    - script:
+        name: Run and IT
+        code: |
+          java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
+          sleep 10
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
+
+integration-test:
+  steps:
+    - script:
+        name: Run and IT
+        code: |
+          java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
+          sleep 10
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
