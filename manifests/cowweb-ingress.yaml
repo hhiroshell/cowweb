@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cowweb
+  annotations:
+    kubernetes.io/ingress.class: "istio"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /cowsay/ping
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/say
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/think
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/whatNumber
+        backend:
+          serviceName: cowweb
+          servicePort: 80
