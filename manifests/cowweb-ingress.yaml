@@ -24,3 +24,15 @@ spec:
         backend:
           serviceName: cowweb
           servicePort: 80
+      - path: /cowsay/index.html
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/app.js
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/style.less
+        backend:
+          serviceName: cowweb
+          servicePort: 80
