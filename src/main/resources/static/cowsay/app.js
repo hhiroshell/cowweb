@@ -5,7 +5,7 @@ let app = new Vue({
     },
     methods: {
         request: function () {
-            axios.get( 'http://localhost:8080/cowsay/api/whatNumber' )
+            axios.get( 'http://' + location.host + '/cowsay/api/whatNumber' )
                 .then( ( res ) => {
                     this.message = res.data;
                     console.log( res );
