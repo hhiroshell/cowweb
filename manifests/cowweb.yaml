@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cowweb
+spec:
+  type: LoadBalancer
+  selector:
+    app: cowweb
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cowweb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cowweb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cowweb
+    spec:
+      containers:
+      - name: cowweb
+        image: iad.ocir.io/hhiroshell1/cowweb:v2.0-test
+        ports:
+        - name: api
+          containerPort: 8080
+        env:
+        - name: REDIS_PORT_6379_TCP_ADDR
+          value: "redis"
+        - name: REDIS_PORT_6379_TCP_PORT
+          value: "6379"
+        readinessProbe:
+          httpGet:
+            path: /cowsay/ping
+            port: api
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /cowsay/ping
+            port: api
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        imagePullPolicy: Always
+      imagePullSecrets:
+        - name: cowweb-secret

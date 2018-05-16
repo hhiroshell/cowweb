@@ -1,16 +1,15 @@
-# docker box definition
 box:
   id: openjdk:8-jdk
   ports:
     - 8080
+
 services:
   - redis
 
-# defining the dev pipeline
 dev:
   steps:
     - script:
-      name: env
+      name: info/env
       code: env
     - internal/watch:
       name: Run and Watch
@@ -18,35 +17,75 @@ dev:
         ./gradlew bootRun
       reload: true
 
-# Build definition
 build:
-  # The steps that will be executed on build
   steps:
     - script:
-      name: env
+      name: info/env
       code: env
-    - script:
-      name: ls
-      code: ls
-    - script:
-      name: pwd
-      code: pwd
     - script:
         name: gradle build
         code: |
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR build
-    - script:
-        name: Run and IT
-        code: |
-          java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
-          sleep 10
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
 
 integration-test:
   steps:
     - script:
         name: Run and IT
         code: |
-          java -jar $WERCKER_ROOT/build_local/dist/libs/cowweb-2.0.jar &
-          sleep 10
+          java -jar $WERCKER_ROOT/build/libs/cowweb-2.0.jar &
+          sleep 5
           ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR integrationTest
+
+push-to-releases:
+  steps:
+    - internal/docker-push:
+        username: $REGISTRY_USERNAME
+        password: $REGISTRY_PASSWORD
+        repository: iad.ocir.io/hhiroshell1/cowweb
+        tag: v2.0-test
+        ports: 8080
+        cmd: java -jar /pipeline/source/build/libs/cowweb-2.0.jar
+
+deploy-to-cluster:
+  box:
+    id: alpine
+    cmd: /bin/sh
+  steps:
+    - kubectl:
+        name: connection testing
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: get nodes
+
+    - kubectl:
+        name: delete namespace
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: delete namespace $WERCKER_APPLICATION_OWNER_NAME --ignore-not-found=true
+
+    - script:
+        name: wait to delete namespace
+        code: sleep 30
+
+    - kubectl:
+        name: create namespace
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: create namespace $WERCKER_APPLICATION_OWNER_NAME
+
+    - kubectl:
+        name: create deplyoment
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: create -f $WERCKER_ROOT/manifests --namespace=$WERCKER_APPLICATION_OWNER_NAME
+#
+    - kubectl:
+        name: get LoadBalancer public IP address
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: get svc -o jsonpath='{.items[*].status.loadBalancer.ingress[*].ip}' --namespace=$WERCKER_APPLICATION_OWNER_NAME
