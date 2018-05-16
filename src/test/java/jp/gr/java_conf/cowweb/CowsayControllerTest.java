@@ -35,7 +35,7 @@ public class CowsayControllerTest {
 
     @Test
     public void testEcho() throws Exception {
-        mockMvc.perform(get("/cowsay/ping"))
+        mockMvc.perform(get("/cowsay/api/ping"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/plain;charset=UTF-8"))
                 .andExpect(content().string("I'm working..."));

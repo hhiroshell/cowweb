@@ -14,7 +14,7 @@ import java.util.*;
  * @author hhiroshell
  */
 @RestController
-@RequestMapping("/cowsay")
+@RequestMapping("/cowsay/api")
 public class CowsayController {
 
     private static final String br = System.getProperty("line.separator");

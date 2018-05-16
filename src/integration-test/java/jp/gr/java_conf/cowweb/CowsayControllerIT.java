@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class CowsayControllerIT {
 
     private static final String TARGET_RESOURCES_ROOT =
-            "http://localhost:8080/cowsay/";
+            "http://localhost:8080/cowsay/api/";
 
     @Test
     public void pingTest() {

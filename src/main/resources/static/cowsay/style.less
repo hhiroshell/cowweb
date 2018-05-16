@@ -1,0 +1,78 @@
+@text: #111;
+@base: #f4f4f4;
+@link: #2a3644;
+@button: #f26964;
+@bottom: #ab4b47;
+
+.rounded (@radius: 6px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+      -ms-border-radius: @radius;
+       -o-border-radius: @radius;
+          border-radius: @radius;
+}
+
+.trans (@transition: .1s) {
+  -webkit-transition: all @transition ease-in-out;
+     -moz-transition: all @transition ease-in-out;
+          transition: all @transition ease-in-out;
+
+}
+
+* {
+  margin:0;
+  padding:0;
+  border:none;
+  list-style:none;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+input:focus {
+  background:rgba(0, 0, 0, 0.1);
+  .trans;
+}
+
+::-webkit-input-placeholder {
+   color: rgba(225, 225, 225, 0.4);
+}
+
+:-moz-placeholder {
+   color: rgba(225, 225, 225, 0.4);
+}
+
+::-moz-placeholder {
+   color: rgba(225, 225, 225, 0.4);
+}
+
+:-ms-input-placeholder {
+   color: rgba(225, 225, 225, 0.4);
+}
+
+body {
+  background:@link;
+}
+
+h3 {
+  color:@base;
+  text-shadow:1px 1px 0px rgba(0, 0, 0, 0.7);
+  text-align:center;
+}
+
+button {
+  width:90%;
+  position:fixed;
+  bottom:10px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding:12px;
+  background:@button;
+  font-size:1.2em;
+  color:@base;
+  box-shadow:0px 3px 0px @bottom;
+  cursor:pointer;
+  .rounded;
+  .trans;
+}
+
