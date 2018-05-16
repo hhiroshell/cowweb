@@ -25,7 +25,7 @@ public class CowsayController {
     AccessCounter counter;
 
     static {
-        cowfiles = Arrays.asList(new String[]{"default"});
+        cowfiles = Arrays.asList(new String[]{"head-in"});
 //        List<String> infelicities = Arrays.asList(new String[]{"head-in", "telebears", "sodomized"});
 //        List<String> c = new ArrayList<>();
 //        Arrays.stream(Cowsay.say(new String[]{"-l"}).split(br)).forEach(f -> {
