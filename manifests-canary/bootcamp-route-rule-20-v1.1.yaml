@@ -1,0 +1,15 @@
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: cowweb-default
+spec:
+  destination:
+    name: cowweb
+  precedence: 1
+  route:
+  - labels:
+      version: v1.0
+    weight: 20
+  - labels:
+      version: v1.1
+    weight: 80

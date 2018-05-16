@@ -1,19 +1,7 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: cowweb
-spec:
-  ports:
-  - name: http
-    port: 80
-    targetPort: 8080
-  selector:
-    app: cowweb
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cowweb-v1.0
+  name: cowweb-v1.1
 spec:
   replicas: 2
   selector:
@@ -25,11 +13,11 @@ spec:
     metadata:
       labels:
         app: cowweb
-        version: v1.0
+        version: v1.1
     spec:
       containers:
       - name: cowweb
-        image: iad.ocir.io/hhiroshell1/cowweb:demo-v1.0
+        image: iad.ocir.io/hhiroshell1/cowweb:demo-v1.1
         ports:
         - name: api
           containerPort: 8080
@@ -41,7 +29,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /cowsay/api/ping
-            port: api
+            port: ap
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:

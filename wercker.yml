@@ -42,7 +42,7 @@ push-to-releases:
         username: $REGISTRY_USERNAME
         password: $REGISTRY_PASSWORD
         repository: iad.ocir.io/hhiroshell1/cowweb
-        tag: v2.0-test
+        tag: demo-v1.0
         ports: 8080
         cmd: java -jar /pipeline/source/build/libs/cowweb-2.0.jar
 
