@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: cowweb
 spec:
-  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
   selector:
     app: cowweb
-  ports:
-  - port: 80
-    targetPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
