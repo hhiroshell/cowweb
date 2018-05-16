@@ -8,19 +8,31 @@ spec:
   rules:
   - http:
       paths:
-      - path: /cowsay/ping
+      - path: /cowsay/api/ping
         backend:
           serviceName: cowweb
           servicePort: 80
-      - path: /cowsay/say
+      - path: /cowsay/api/say
         backend:
           serviceName: cowweb
           servicePort: 80
-      - path: /cowsay/think
+      - path: /cowsay/api/think
         backend:
           serviceName: cowweb
           servicePort: 80
-      - path: /cowsay/whatNumber
+      - path: /cowsay/api/whatNumber
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/index.html
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/app.js
+        backend:
+          serviceName: cowweb
+          servicePort: 80
+      - path: /cowsay/style.less
         backend:
           serviceName: cowweb
           servicePort: 80
