@@ -54,14 +54,16 @@ deploy-to-cluster:
     - kubectl:
         name: connection testing
         server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
         command: get nodes
 
     - kubectl:
         name: delete namespace
         server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
         command: delete namespace $WERCKER_APPLICATION_OWNER_NAME --ignore-not-found=true
 
@@ -72,20 +74,23 @@ deploy-to-cluster:
     - kubectl:
         name: create namespace
         server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
         command: create namespace $WERCKER_APPLICATION_OWNER_NAME
 
     - kubectl:
         name: create deplyoment
         server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
         command: create -f $WERCKER_ROOT/manifests --namespace=$WERCKER_APPLICATION_OWNER_NAME
 #
     - kubectl:
         name: get LoadBalancer public IP address
         server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
+        username: $KUBERNETES_USERNAME
+        password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
         command: get svc -o jsonpath='{.items[*].status.loadBalancer.ingress[*].ip}' --namespace=$WERCKER_APPLICATION_OWNER_NAME
