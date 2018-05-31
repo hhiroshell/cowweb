@@ -1,6 +1,7 @@
 package jp.gr.java_conf.cowweb;
 
 import com.github.ricksbrown.cowsay.Cowsay;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,9 @@ public class CowsayController {
 
     private static final List<String> cowfiles;
 
+    @Autowired
+    AccessCounter counter;
+
     static {
         List<String> infelicities = Arrays.asList(new String[]{"head-in", "telebears", "sodomized"});
         List<String> c = new ArrayList<>();
@@ -29,6 +33,31 @@ public class CowsayController {
             }
         });
         cowfiles = Collections.unmodifiableList(c);
+    }
+
+    /**
+     * Say hello and get a reply.
+     *
+     * @return a reply message that indicate the number of access.
+     */
+    @RequestMapping("/hello")
+    public String hello() {
+        String reply = "Hello! You are the " + addOrdinal(counter.getCount()) + " visitor!!";
+        return Cowsay.say(new String[]{"-f", getRandomCowfile(), reply});
+    }
+
+    private String addOrdinal(Integer num) {
+        String ordinal;
+        if ((num % 10 == 1) && (num % 100 != 11)) {
+            ordinal = num + "st";
+        } else if ((num % 10 == 2) && (num % 100 != 12)) {
+            ordinal = num + "nd";
+        } else if ((num % 10 == 3) && (num % 100 != 13)) {
+            ordinal = num + "rd";
+        } else {
+            ordinal = num + "th";
+        }
+        return ordinal;
     }
 
     /**
