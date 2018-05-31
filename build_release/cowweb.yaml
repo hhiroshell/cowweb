@@ -1,46 +1,51 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: cowweb
----
-apiVersion: v1
 kind: Service
 metadata:
   name: cowweb
   namespace: cowweb
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: cowweb
-    profile: release
   ports:
-  - name: api
-    port: 8080
+  - name: http
+    port: 80
+    targetPort: 8080
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1beta1
+kind: Deployment
 metadata:
   name: cowweb
   namespace: cowweb
   labels:
     app: cowweb
-    profile: release
 spec:
-  containers:
-  - name: cowweb
-    image: docker.io/hhayakaw/cowweb
-    ports:
-    - name: api
-      containerPort: 8080
-    readinessProbe:
-      httpGet:
-        path: /cowsay/ping
-        port: api
-      initialDelaySeconds: 5
-      periodSeconds: 10
-    livenessProbe:
-      httpGet:
-        path: /cowsay/ping
-        port: api
-      initialDelaySeconds: 15
-      periodSeconds: 20
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cowweb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cowweb
+    spec:
+      containers:
+      - name: cowweb
+        image: docker.io/hhayakaw/cowweb
+        ports:
+        - name: api
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /cowsay/ping
+            port: api
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /cowsay/ping
+            port: api
+          initialDelaySeconds: 15
+          periodSeconds: 20

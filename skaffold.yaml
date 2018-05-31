@@ -27,4 +27,4 @@ profiles:
     deploy:
       kubectl:
         manifests:
-          - ./build_release/cowweb.yaml
+          - ./build_release/cowweb*.yaml
