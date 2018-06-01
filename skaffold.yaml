@@ -34,7 +34,7 @@ profiles:
         docker:
           dockerfilePath: ./kubernetes/container/Dockerfile_release
       local:
-        skipPush: true
+        skipPush: false
       tagPolicy:
         gitCommit: {}
     deploy:
