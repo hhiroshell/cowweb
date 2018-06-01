@@ -21,13 +21,6 @@ podTemplate(
           """
         }
       }
-      stage('Helm Init') {
-        container('skaffold-insider') {
-          sh """
-            helm init
-          """
-        }
-      }
       stage('Test skaffold') {
         git 'https://github.com/hhiroshell/cowweb.git'
         container('skaffold-insider') {
