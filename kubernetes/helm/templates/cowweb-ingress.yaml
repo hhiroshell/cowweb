@@ -1,8 +1,8 @@
+{{- if .Values.ingress.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: cowweb
-  namespace: cowweb
   annotations:
     kubernetes.io/ingress.class: "istio"
 spec:
@@ -13,3 +13,4 @@ spec:
         backend:
           serviceName: cowweb
           servicePort: 80
+{{- end -}}

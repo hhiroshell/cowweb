@@ -2,28 +2,33 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cowweb
-  namespace: cowweb-local-dev
 spec:
-  type: NodePort
+  type: {{ if .Values.ingress.enabled }}ClusterIP{{ else }}NodePort{{ end }}
   selector:
     app: cowweb
   ports:
   - name: http
-    port: 8080
-    nodePort: 30080
+    {{ if .Values.ingress.enabled }}
+    port: {{ .Values.http.port | default 80 }}
+    targetPort: {{ .Values.http.targetPort | default 8080 }}
+    {{ else }}
+    port: {{ .Values.http.port | default 8080 }}
+    nodePort: {{ .Values.http.nodePort | default 30080 }}
+    {{ end }}
+    {{ if .Values.debug.enabled }}
   - name: debug
-    port: 8081
-    nodePort: 30081
+    port: {{ .Values.debug.port | default 8081 }}
+    nodePort: {{ .Values.debug.nodePort | default 30081 }}
+    {{ end }}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: cowweb
-  namespace: cowweb-local-dev
   labels:
     app: cowweb
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: cowweb
@@ -36,7 +41,7 @@ spec:
     spec:
       containers:
       - name: cowweb
-        image: docker.io/hhayakaw/cowweb
+        image: {{ .Values.image }}
         ports:
         - name: api
           containerPort: 8080

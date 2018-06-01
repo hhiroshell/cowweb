@@ -5,13 +5,26 @@ build:
   - imageName: docker.io/hhayakaw/cowweb
     workspace: .
     docker:
-      dockerfilePath: ./build_local/Dockerfile
+      dockerfilePath: ./kubernetes/container/Dockerfile_dev
   local:
     skipPush: true
 deploy:
-  kubectl:
-    manifests:
-      - ./build_local/cowweb*.yaml
+  helm:
+    releases:
+    - name: cowweb-helm-dev
+      chartPath: kubernetes/helm
+      namespace: cowweb-dev
+      values:
+        image: docker.io/hhayakaw/cowweb
+#      valuesFilePath: kubernetes/dev/helm-values.yaml
+      setValues:
+        replicaCount: 1
+        ingress.enabled: false
+        http.port: 8080
+        http.nodePort: 30080
+        debug.enabled: true
+        debug.port: 8081
+        debug.nodePort: 30081
 profiles:
   - name: release
     build:
@@ -19,12 +32,22 @@ profiles:
       - imageName: docker.io/hhayakaw/cowweb
         workspace: .
         docker:
-          dockerfilePath: ./build_release/Dockerfile
+          dockerfilePath: ./kubernetes/container/Dockerfile_release
       local:
-        skipPush: false
+        skipPush: true
       tagPolicy:
         gitCommit: {}
     deploy:
-      kubectl:
-        manifests:
-          - ./build_release/cowweb*.yaml
+      helm:
+        releases:
+        - name: cowweb-helm-release
+          chartPath: kubernetes/helm
+          namespace: cowweb-release
+          values:
+            image: docker.io/hhayakaw/cowweb
+          setValues:
+            replicaCount: 2
+            ingress.enabled: true
+            http.port: 80
+            http.targetPort:
+            debug.enabled: false
