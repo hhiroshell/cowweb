@@ -1,12 +1,12 @@
-package jp.gr.java_conf.cowweb;
+package com.github.hhiroshell.cowweb;
 
 import com.github.ricksbrown.cowsay.Cowsay;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+
 
 /**
  * Remote cowsay invoker using Spring Boot
@@ -21,9 +21,6 @@ public class CowsayController {
 
     private static final List<String> cowfiles;
 
-    @Autowired
-    AccessCounter counter;
-
     static {
         List<String> infelicities = Arrays.asList(new String[]{"head-in", "telebears", "sodomized"});
         List<String> c = new ArrayList<>();
@@ -36,38 +33,14 @@ public class CowsayController {
     }
 
     /**
-     * Say hello and get a reply.
-     *
-     * @return a reply message that indicate the number of access.
-     */
-    @RequestMapping("/hello")
-    public String hello() {
-        String reply = "Hello! You are the " + addOrdinal(counter.getCount()) + " visitor!!";
-        return Cowsay.say(new String[]{"-f", getRandomCowfile(), reply});
-    }
-
-    private String addOrdinal(Integer num) {
-        String ordinal;
-        if ((num % 10 == 1) && (num % 100 != 11)) {
-            ordinal = num + "st";
-        } else if ((num % 10 == 2) && (num % 100 != 12)) {
-            ordinal = num + "nd";
-        } else if ((num % 10 == 3) && (num % 100 != 13)) {
-            ordinal = num + "rd";
-        } else {
-            ordinal = num + "th";
-        }
-        return ordinal;
-    }
-
-    /**
      * Return cowsay's 'say' message.
      *
      * @return Cowsay's 'say' message.
      */
     @RequestMapping("/say")
-    public String say(@RequestParam(required = false) Optional<String> message) {
-        return Cowsay.say(new String[]{"-f", getRandomCowfile(), message.orElse("Moo!")});
+    public String say(@RequestParam(required = false) Optional<String> say) {
+        Optional<String> env = say.map(s -> System.getenv(s));
+        return Cowsay.say(new String[]{"-f", getRandomCowfile(), env.orElse(say.orElse("Moo!"))});
     }
 
     /**
@@ -76,8 +49,9 @@ public class CowsayController {
      * @return Cowsay's 'think' message.
      */
     @RequestMapping("/think")
-    public String think(@RequestParam(required = false) Optional<String> message) {
-        return Cowsay.think(new String[]{"-f", getRandomCowfile(), message.orElse("Moo!")});
+    public String think(@RequestParam(required = false) Optional<String> think) {
+        Optional<String> env = think.map(t -> System.getenv(t));
+        return Cowsay.think(new String[]{"-f", getRandomCowfile(), env.orElse(think.orElse("Moo!"))});
     }
 
     private static String getRandomCowfile() {

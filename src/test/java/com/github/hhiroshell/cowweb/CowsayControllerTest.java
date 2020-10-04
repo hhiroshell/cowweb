@@ -1,5 +1,6 @@
-package jp.gr.java_conf.cowweb;
+package com.github.hhiroshell.cowweb;
 
+import com.github.hhiroshell.cowweb.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package jp.gr.java_conf.cowweb;
+package com.github.hhiroshell.cowweb;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +10,7 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getAccessLogInterceptor());
-        registry.addInterceptor(getAccessCounterInterceptor())
+        registry.addInterceptor(getAccessLogInterceptor())
                 .excludePathPatterns("/cowsay/ping");
     }
 
@@ -20,8 +19,4 @@ class WebMvcConfiguration implements WebMvcConfigurer {
         return new AccessLogInterceptor();
     }
 
-    @Bean
-    AccessCounterInterceptor getAccessCounterInterceptor() {
-        return new AccessCounterInterceptor();
-    }
 }

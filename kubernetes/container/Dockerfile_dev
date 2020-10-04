@@ -1,8 +1,0 @@
-FROM java:8-jre-alpine
-
-RUN addgroup -S -g 1000 app \
-    && adduser -D -S -G app -u 1000 -s /bin/ash app
-USER app
-WORKDIR /home/app
-COPY --chown=app:app ./build/libs/cowweb-2.0.jar .
-CMD ["java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,address=8081,suspend=n", "-jar", "/home/app/cowweb-2.0.jar"]

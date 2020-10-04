@@ -1,4 +1,4 @@
-package jp.gr.java_conf.cowweb;
+package com.github.hhiroshell.cowweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
