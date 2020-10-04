@@ -1,5 +1,8 @@
 name: Build and push a container with Jib
-on: push
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   jib:
@@ -24,10 +27,14 @@ jobs:
       - name: Gradle wrapper validation
         uses: gradle/wrapper-validation-action@v1
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
       - name: Build and push container
         run: |
           ./gradlew jib \
-              -Djib.to.image=ghcr.io/hhiroshell/cowweb/cowweb:latest \
-              -Djib.to.tags=${{ github.ref }},latest \
+              -Djib.to.image=ghcr.io/hhiroshell/cowweb/cowweb \
+              -Djib.to.tags=${{ steps.get_version.outputs.VERSION }},latest \
               -Djib.to.auth.username=${{ github.actor }} \
               -Djib.to.auth.password=${{ secrets.CR_PAT }}
