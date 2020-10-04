@@ -8,7 +8,6 @@ plugins {
 
 bootJar {
     archiveBaseName = 'cowweb'
-    archiveVersion =  '1.0'
 }
 
 sourceCompatibility = 1.11

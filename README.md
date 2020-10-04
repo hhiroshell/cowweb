@@ -32,7 +32,7 @@ git clone https://github.com/hhiroshell/cowweb.git && cd cowweb
 ./gradlew build
 ```
 ```
-java -jar build/libs/cowweb-1.0.jar
+java -jar build/libs/cowweb.jar
 ```
 
 #### Call the API.
