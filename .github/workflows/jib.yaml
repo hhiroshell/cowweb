@@ -2,11 +2,9 @@ name: Build and push a container with Jib
 on: push
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        os: ubuntu-latest
-    runs-on: ${{ matrix.os }}
+  jib:
+    name: Build
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2

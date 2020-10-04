@@ -2,11 +2,9 @@ name: Run gradle test and build
 on: [pull_request, push]
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        os: "ubuntu-latest"
-    runs-on: ${{ matrix.os }}
+  build:
+    name: Build
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
