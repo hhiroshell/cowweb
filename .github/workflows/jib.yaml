@@ -1,0 +1,23 @@
+name: Build and push a container with Jib
+on: push
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Gradle wrapper validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Build and push container
+        run: |
+          ./gradlew jib \
+              -Djib.to.image=ghcr.io/hhiroshell/cowweb-go/cowweb:latest \
+              -Djib.to.tags=latest \
+              -Djib.to.auth.username=${{ github.actor }} \
+              -Djib.to.auth.password=${{ secrets.CR_PAT }}

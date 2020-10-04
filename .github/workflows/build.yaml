@@ -1,11 +1,11 @@
-name: Run Gradle on PRs and Pushes
+name: Run gradle test and build
 on: [pull_request, push]
 
 jobs:
   test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: ubuntu-latest
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -28,3 +28,6 @@ jobs:
 
       - name: Test
         run: ./gradlew test
+
+      - name: Build
+        run: ./gradlew build -x test
