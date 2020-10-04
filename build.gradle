@@ -25,12 +25,3 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.4.RELEASE'
 }
-
-ext.github.ref = System.getenv('github.ref')
-
-jib {
-    to {
-        image = 'ghcr.io/hhiroshell/cowweb-go/cowweb'
-        tags = [ext.github.ref, 'latest']
-    }
-}

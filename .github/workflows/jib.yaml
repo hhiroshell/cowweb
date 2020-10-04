@@ -3,7 +3,7 @@ on: push
 
 jobs:
   jib:
-    name: Build
+    name: Jib
     runs-on: ubuntu-latest
 
     steps:
