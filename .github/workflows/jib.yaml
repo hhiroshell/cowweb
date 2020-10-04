@@ -27,7 +27,7 @@ jobs:
       - name: Build and push container
         run: |
           ./gradlew jib \
-              -Djib.to.image=ghcr.io/hhiroshell/cowweb-go/cowweb:latest \
-              -Djib.to.tags=latest \
+              -Djib.to.image=ghcr.io/hhiroshell/cowweb/cowweb:latest \
+              -Djib.to.tags=${{ github.ref }},latest \
               -Djib.to.auth.username=${{ github.actor }} \
               -Djib.to.auth.password=${{ secrets.CR_PAT }}
