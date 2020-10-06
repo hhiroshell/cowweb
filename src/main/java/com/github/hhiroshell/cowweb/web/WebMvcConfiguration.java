@@ -1,4 +1,4 @@
-package com.github.hhiroshell.cowweb;
+package com.github.hhiroshell.cowweb.web;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,7 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getAccessCounterInterceptor())
-                .excludePathPatterns("/cowsay/ping");
+        registry.addInterceptor(getAccessCounterInterceptor());
     }
 
     @Bean

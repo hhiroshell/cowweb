@@ -1,4 +1,4 @@
-package com.github.hhiroshell.cowweb;
+package com.github.hhiroshell.cowweb.web;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -22,4 +22,5 @@ class AccessCounterInterceptor extends HandlerInterceptorAdapter {
         accessCounter.increment();
         return true;
     }
+
 }

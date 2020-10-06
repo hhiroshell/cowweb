@@ -5,15 +5,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "com.github.hhiroshell.cowweb")
-class ApplicationProperties {
+public class CowwebProperties {
 
     private int load;
 
-    int getLoad() {
+    public int getLoad() {
         return this.load;
     }
 
-    public void setLoad(int load) {
+    void setLoad(int load) {
         this.load = load;
     }
 
