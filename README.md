@@ -18,7 +18,7 @@ How to build and run
 --------------------
 
 ### gradle
-Build a executable jar with dependencies and run localy.
+Build an executable jar with dependencies and run in local.
 
 #### Clone this repository.
 
