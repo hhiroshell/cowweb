@@ -1,4 +1,4 @@
-name: Build and push a container with Jib
+name: Push a Container
 on:
   push:
     tags:

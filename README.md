@@ -1,5 +1,8 @@
 COWWEB
 ======
+![Test and Build](https://github.com/hhiroshell/cowweb/workflows/Test%20and%20Build/badge.svg)
+![Push a Container](https://github.com/hhiroshell/cowweb/workflows/Push%20a%20Container/badge.svg)
+
 Cosay Web API.
 
 ```
