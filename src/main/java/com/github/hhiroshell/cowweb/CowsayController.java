@@ -1,6 +1,7 @@
 package com.github.hhiroshell.cowweb;
 
 import com.github.ricksbrown.cowsay.Cowsay;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,9 @@ public class CowsayController {
         cowfiles = Collections.unmodifiableList(c);
     }
 
+    @Autowired
+    private ApplicationProperties properties;
+
     /**
      * Return cowsay's 'say' message.
      *
@@ -54,8 +58,16 @@ public class CowsayController {
         return Cowsay.think(new String[]{"-f", getRandomCowfile(), env.orElse(think.orElse("Moo!"))});
     }
 
-    private static String getRandomCowfile() {
-        return cowfiles.get(new Random().nextInt(cowfiles.size()));
+    private String getRandomCowfile() {
+//        return cowfiles.get(new Random().nextInt(cowfiles.size()));
+        Random rand = new Random();
+        int index = 0;
+        for (int i = 0; i < properties.getLoad(); i++) {
+            for (int j = 0; j < properties.getLoad(); j++) {
+                index = rand.nextInt(cowfiles.size());
+            }
+        }
+        return cowfiles.get(index);
     }
 
     /**

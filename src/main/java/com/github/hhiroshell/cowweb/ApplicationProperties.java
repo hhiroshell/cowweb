@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "com.github.hhiroshell.cowweb")
 class ApplicationProperties {
 
-    private String version;
+    private int load;
 
-    String getVersion() {
-        return version;
+    int getLoad() {
+        return this.load;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setLoad(int load) {
+        this.load = load;
     }
 
 }
