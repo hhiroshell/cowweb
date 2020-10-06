@@ -15,7 +15,6 @@ import java.util.*;
  * @author hhiroshell
  */
 @RestController
-@RequestMapping("/cowsay")
 public class CowwebController {
 
     @Autowired

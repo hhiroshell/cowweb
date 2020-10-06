@@ -36,7 +36,7 @@ public class CowwebControllerTest {
 
     @Test
     public void testSay() throws Exception {
-        mockMvc.perform(get("/cowsay/say"))
+        mockMvc.perform(get("/say"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/plain;charset=UTF-8"))
                 .andExpect(content().string(new StringContains(getBubble("Moo!", SayOrThink.SAY))));
@@ -44,7 +44,7 @@ public class CowwebControllerTest {
 
     @Test
     public void testThink() throws Exception {
-        mockMvc.perform(get("/cowsay/think"))
+        mockMvc.perform(get("/think"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/plain;charset=UTF-8"))
                 .andExpect(content().string(new StringContains(getBubble("Moo!", SayOrThink.THINK))));

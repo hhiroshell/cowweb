@@ -6,7 +6,7 @@ COWWEB
 Cosay Web API.
 
 ```
-$ curl "http://localhost:8080/cowsay/say?message=Hello%20cowweb"
+$ curl "http://localhost:8080/say?m=hello%20cowweb"
  ______________
 < Hello cowweb >
  --------------
@@ -42,11 +42,11 @@ java -jar build/libs/cowweb.jar
 You can call the API via localhost:8080 .
 
 ```
-curl "http://localhost:8080/cowsay/say"
+curl "http://localhost:8080/say"
 ```
 
 And you can specify a message using "message" query (special characters have to be URL encorded).
 
 ```
-curl "http://localhost:8080/cowsay/say?message=hello%20cowweb"
+curl "http://localhost:8080/say?m=hello%20cowweb"
 ```
